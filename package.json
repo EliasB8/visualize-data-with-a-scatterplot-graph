@@ -1,0 +1,24 @@
+{
+  "name": "visualize-data-with-a-scatterplot-graph",
+  "version": "1.0.0",
+  "description": "A scatter plot that shows Doping Allegations in Bicycle from 1994 to 2015.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gh-pages -d src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EliasB8/visualize-data-with-a-scatterplot-graph.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EliasB8/visualize-data-with-a-scatterplot-graph/issues"
+  },
+  "homepage": "https://github.com/EliasB8/visualize-data-with-a-scatterplot-graph#readme",
+  "dependencies": {
+    "gh-pages": "^3.1.0"
+  }
+}
