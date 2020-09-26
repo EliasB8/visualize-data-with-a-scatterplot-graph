@@ -94,7 +94,7 @@ function renderPlot(dataset) {
 
 
   // Creating a legend
-  const legend = svg.append("g").attr("transform", `translate(${width*0.975}, ${height*0.35})`)
+  const legend = svg.append("g").attr("transform", `translate(${width*0.985}, ${height*0.35})`)
     .attr("id", "legend")
     .style("fill", "#f4ebc1");
 
@@ -107,7 +107,7 @@ function renderPlot(dataset) {
   // Generating legend text
   legend.append("text")
     .text("No doping allegations")
-    .attr("x", -3.65 * padding)
+    .attr("x", -4 * padding)
     .attr("y", padding * 0.4);
 
   // Generating legend color
@@ -120,7 +120,7 @@ function renderPlot(dataset) {
   // Generating legend text
   legend.append("text")
     .text("Riders with doping allegations")
-    .attr("x", -5 * padding)
+    .attr("x", -5.45 * padding)
     .attr("y", padding * 1.25)
 
 }
