@@ -1,0 +1,99 @@
+// Setting footer year
+document.querySelector("footer p span").textContent = new Date().getFullYear();
+
+// Getting Data from API
+fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json")
+  .then(res => res.json())
+  .then(data => {
+    renderPlot(data);
+  });
+
+// Accessing our svg element
+const svg = d3.select("svg");
+
+function renderPlot(dataset) {
+  const width = 800;
+  const height = 460;
+  const padding = 40;
+  const radius = 7;
+
+  svg.append("text").text("Time in Minute").attr('transform', 'rotate(-90)').attr("x", -height * 0.45).attr("y", padding * 0.45).style("fill", "#f4ebc1");
+
+
+  const xScale = d3.scaleLinear().domain([d3.min(dataset, d => d.Year - 1), d3.max(dataset, d => d.Year + 1)]).range([0, width]);
+
+  const xAxis = d3.axisBottom(xScale).tickFormat(d => d);
+
+  svg.append("g")
+    .attr("transform", `translate(${1.5*padding},${height - padding/2})`)
+    .attr("class", "axis")
+    .attr("id", "x-axis")
+    .call(xAxis);
+
+  const yScale = d3.scaleLinear().domain([d3.min(dataset, d => d.Seconds), d3.max(dataset, d => d.Seconds)]).range([0, height - padding]);
+
+  const yAxis = d3.axisLeft(yScale).tickFormat(d => {
+    const format = parseInt(d / 60) + ":" + (d % 60 === 0 ? "00" : d % 60);
+    return format;
+  });
+
+  svg.append("g")
+    .attr("transform", `translate(${1.5*padding}, ${padding/2})`)
+    .attr("class", "axis")
+    .attr("id", "y-axis")
+    .call(yAxis);
+
+  const tooltip = d3.select("body").append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .attr("id", "tooltip");
+
+  svg.selectAll("circle")
+    .data(dataset)
+    .enter()
+    .append("circle")
+    .attr("cx", (d, i) => 1.5 * padding + xScale(d.Year))
+    .attr("cy", (d, i) => yScale(d.Seconds) + padding / 2)
+    .attr("r", radius)
+    .attr("data-xvalue", d => d.Year)
+    .attr("data-yvalue", d => new Date(1970, 0, 1, 0, d.Time.split(":")[0], d.Time.split(":")[1]))
+    .attr("class", "dot")
+    .attr("fill", d => {
+      return d.Doping ? "#ff6f3c" : "#5eaaa8";
+    }).on("mouseover", (event, d) => {
+      tooltip.style("opacity", 0.9);
+      tooltip.attr("data-year", d.Year);
+      tooltip.html(d.Name + ": " + d.Nationality + "</br>" +
+        "Year: " + d.Year + ", Time: " + d.Time + "</br>" +
+        (d.Doping ? d.Doping : ""));
+      tooltip.style("left", (event.pageX + 10) + "px");
+      tooltip.style("top", (event.pageY - 28) + "px");
+    }).on("mouseout", () => tooltip.style("opacity", 0));
+
+
+  const legend = svg.append("g").attr("transform", `translate(${width*0.975}, ${height*0.35})`)
+    .attr("id", "legend")
+    .style("fill", "#f4ebc1");
+
+  legend.append("rect")
+    .attr("width", padding * 0.65)
+    .attr("height", padding * 0.65)
+    .style("fill", "#5eaaa8");
+
+  legend.append("text")
+    .text("No doping allegations")
+    .attr("x", -3.65 * padding)
+    .attr("y", padding * 0.4);
+
+  legend.append("rect")
+    .attr("width", padding * 0.65)
+    .attr("height", padding * 0.65)
+    .attr("y", padding * 0.85)
+    .style("fill", "#ff6f3c");
+
+  legend.append("text")
+    .text("Riders with doping allegations")
+    .attr("x", -5 * padding)
+    .attr("y", padding * 1.25)
+
+}

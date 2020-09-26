@@ -1,0 +1,42 @@
+body {
+  paddding: 0;
+  margin: 0;
+  background-color: #726a95;
+  
+}
+
+.container {
+  text-align: center;
+  margin: 4rem auto;
+  color: #f4ebc1;
+}
+
+svg {
+  border: 2px solid black;
+  background-color: #6e6d6d;
+  box-shadow: 8px 8px 20px rgba(0,0,0,0.5);
+}
+
+.axis {
+  color: #f4ebc1;
+}
+
+.dot {
+  stroke: #625261;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #625261;
+  color: #f4ebc1;
+  padding: 0.5rem;
+  z-index: 10;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+.footer {
+  color: #f4ebc1;
+  text-align: center;
+  font-size: 1.35rem;
+}
